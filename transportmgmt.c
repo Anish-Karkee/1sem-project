@@ -254,10 +254,116 @@ int main()
                             break;
                             case 4 : costSummaryReport();
                             break;
+                            case 0:
+                            break;
                         }
-                    }
+                    } while(rc!=0);
                 }
-
+                break;
+            case 5:
+                saveAllData();
+                printf("\n All data saved successfully\n");
+                pauseScreen();
+                break;
+            case 0:
+                saveAllData();
+                printf("\n================================================================\n");
+                printf("        Thank you for using Transport Management System\n");
+                printf("==================================================================\n");
+                break;     
         }
+    } while(choice!=0);
+    return 0;
+}
+
+// Menu dispaly function
+
+void displayMainMenu(){
+    printf("\n=======================================================\n");
+    printf("     ORGANIZATION TRANSPORT MANAGEMENT SYSTEM\n");
+    printf("=======================================================\n");
+    printf("  1. Vehicle Management\n");
+    printf("  2. Driver Management\n");
+    printf("  3. Trip / Booking Management\n");
+    printf("  4. Reports & Analytics\n");
+    printf("  5. Save All Data\n");
+    printf("  0. Exit System\n");
+    printf("=======================================================\n");
+}
+
+void displayVehicleMenu() {
+    printf("\n=======================================================\n");
+    printf("              VEHICLE MANAGEMENT\n");
+    printf("=======================================================\n");
+    printf("  1. Add New Vehicle\n");
+    printf("  2. View Vehicle Details\n");
+    printf("  3. Update Vehicle Record\n");
+    printf("  4. Delete Vehicle Record\n");
+    printf("  5. List All Vehicles\n");
+    printf("  0. Back to Main Menu\n");
+    printf("=======================================================\n");
+}
+
+void displayDriverMenu(){
+    printf("\n=======================================================\n");
+    printf("              DRIVER MANAGEMENT\n");
+    printf("=======================================================\n");
+    printf("  1. Add New Driver\n");
+    printf("  2. View Driver Details\n");
+    printf("  3. Update Driver Record\n");
+    printf("  4. Delete Driver Record\n");
+    printf("  5. List All Drivers\n");
+    printf("  0. Back to Main Menu\n");
+    printf("=======================================================\n");
+}
+
+void displayTripMenu() {
+    printf("\n=======================================================\n");
+    printf("              TRIP MANAGEMENT\n");
+    printf("=======================================================\n");
+    printf("  1. Book New Trip\n");
+    printf("  2. View Trip Details\n");
+    printf("  3. Update Trip Details\n");
+    printf("  4. Mark Trip as Completed\n");
+    printf("  5. Cancel Trip\n");
+    printf("  6. List All Trips\n");
+    printf("  0. Back to Main Menu\n");
+    printf("=======================================================\n");
+}
+
+void displayReportMenu() {
+    printf("\n=======================================================\n");
+    printf("              REPORTS & ANALYTICS\n");
+    printf("=======================================================\n");
+    printf("  1. Vehicle Status Report\n");
+    printf("  2. Driver Status Report\n");
+    printf("  3. Trip History Report\n");
+    printf("  4. Cost Summary Report\n");
+    printf("  0. Back to Main Menu\n");
+    printf("=======================================================\n");
+}
+
+// VEHICLE MANAGEMENT 
+
+void addVehicle(){
+    clearScreen();
+    printf("\n=======================================================\n");
+    printf("              ADD NEW VEHICLE\n");
+    printf("=======================================================\n");
+
+    if (vehicleCount>=MAX_VEHICLES){
+        printf("\n Error: Maximum vehicle capacity reached!\n");
+        pauseScreen();
+        return;
     }
+
+    Vehicle v;
+    memset(&v, 0, sizeof(Vehicle));
+    v.vehicleID = nextDriverID++;
+    v.isActive = 1;
+    printf("\nVehicle ID (AUTO-GENERATED): %d\n", v.vehicleID);
+    getValidString("Enter REgistration Number", v.regNumber, 20);
+    getValidString("Enter Vehicle Type (car/van/bus/truck/bike)", v.type, 30);
+    
+
 }
