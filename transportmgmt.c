@@ -111,7 +111,7 @@ void listAllDriver();
 void bookTrip();
 void viewTrip();
 void updateTrip();
-void complereTrip();
+void completeTrip();
 void cancelTrip();
 void listAllTrip();
 // reports
@@ -196,11 +196,67 @@ int main()
                         displayDriverMenu();
                         dc = getValidInteger("Enter a choice", 0, 5);
                         switch(dc) {
-                            case 1: addDriver()
+                            case 1: addDriver();
+                            break;
+                            case 2: viewDriver();
+                            break;
+                            case 3: updateDriver();
+                            break;
+                            case 4: deleteDriver();
+                            break;
+                            case 5: listAllDriver();
+                            break;
+                            case 0: break;
+                        }
+                    }while(dc!=0);
+                }
+                break;
+            case 3:
+                // trip sub menu
+                {
+                    int tc;
+                    do{
+                        clearScreen();
+                        displayTripMenu();
+                        tc = getValidInteger("Enter a choice", 0, 6);
+                        switch(tc) {
+                            case 1: bookTrip();
+                            break;
+                            case 2: viewTrip();
+                            break;
+                            case 3: updateTrip();
+                            break;
+                            case 4: completeTrip();
+                            break;
+                            case 5: cancelTrip();
+                            break;
+                            case 6: listAllTrip();
+                            break;
+                            case 0: break;
+                        }
+                    } while(tc!=0);
+                }
+                break;
+            case 4:
+                // report sub meni
+                {
+                    int rc;
+                    do{
+                        clearScreen();
+                        displayReportMenu();
+                        rc = getValidInteger("Enter a choice", 0, 4);
+                        switch(rc) {
+                            case 1 : vehicleStatusReport();
+                            break;
+                            case 2 : driverStatusReport();
+                            break;
+                            case 3 : tripHistoryReport();
+                            break;
+                            case 4 : costSummaryReport();
+                            break;
                         }
                     }
                 }
-
 
         }
     }
