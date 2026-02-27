@@ -30,6 +30,8 @@ typedef struct
     char insuranceExpiry[25];
     char taxExpiry[25];
     char status[25];
+    float fuelCostPerKm;
+    char notes[MAX_NOTES];
     char isActive;
 } Vehicle;
 
@@ -364,6 +366,21 @@ void addVehicle(){
     printf("\nVehicle ID (AUTO-GENERATED): %d\n", v.vehicleID);
     getValidString("Enter REgistration Number", v.regNumber, 20);
     getValidString("Enter Vehicle Type (car/van/bus/truck/bike)", v.type, 30);
-    
+    getValidString("Enter Make (e.g. Toyota, Tata, Mahindra, hyundai)", v.make, 50);
+    getValidString("Enter Model", v.model, 50);
+    v.year = getValidInteger("Enter Year of Manufacture", 1980, 2026);
+    getValidString("Enter Fuel Type (Petrol/Diesel/CNG/EV)", v.fueltype, 25);
+    v.seatCapacity = getValidInteger("Enter Seat Capacity", 1, 60);
+    v.currentOdometer = getValidFloat("Enter Current Odometer (km)", 0, 9999999);
+    getValidString("Enter Insurance Expiry Date (YYYY-MM-DD)", v.insuranceExpiry, 20);
+    getValidString("Enter Tax Expiry Date(YYYY-MM-DD)", v.taxExpiry, 20);
+    v.fuelCostPerKm = getValidFloat("Enter Feul Cost Per Km (approx)", 0, 100);
+    strcpy(v.status, "Available");
+    getValidString("Enter Notes (optional)", v.notes, MAX_NOTES);
 
+    vehicles[vehicleCount++] = v;
+    saveVehicles();
+
+    pritnf("\n Vehicle added successfully! ID: %d\n", v.vehicleID);
+    pauseScreen();
 }
