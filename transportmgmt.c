@@ -412,4 +412,15 @@ void viewVehicle(){
     printf("\n Vehicle not found!\n");
 
     pauseScreen();
+    return;
+}
+
+void updateVehicles(){
+    clearScreen();
+    printf("\n========================================================\n");
+    printf("                UPDATE VEHICLES RECORDS\n");
+    printf("=====================================================/n");
+
+    int id = getValidInteger("Enter Vehicles ID to update", 2000, 999999);
+    int index = findVehicleByID(id)
 }
