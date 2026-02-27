@@ -384,3 +384,32 @@ void addVehicle(){
     pritnf("\n Vehicle added successfully! ID: %d\n", v.vehicleID);
     pauseScreen();
 }
+
+void viewVehicle(){
+    clearScreen();
+    pritnf("\n=================================================\n");
+    printf("              VIEW VEHICLES DETAILS\n");
+    printf("=================================================\n");
+
+    printf("\n search by:\n");
+    printf("1. Vehicle ID\n");
+    printf("2. Registration Number\n");
+    int choice = getValidInteger("Enter a choice", 1, 2);
+    int index = -1;
+
+    if(choice == 1) {
+        int id = getValidInteger("Enter Vehicle ID", 2000, 9999999);
+        index = findVehicleByID(id);
+    } else {
+        char reg[20];
+        getValidString("Enter Registration Number", reg, 20);
+        index = findVehicleByReg(reg);
+    }
+
+    if(index != -1)
+        displayVehicleDetails(vehicles[index]);
+    else
+    printf("\n Vehicle not found!\n");
+
+    pauseScreen();
+}
