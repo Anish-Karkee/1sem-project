@@ -439,6 +439,37 @@ void updateVehicles(){
 
     int choice = getValidInteger("Enter a choice", 0, 13);
     switch(choice) {
-        457
+        case 0: printf("\nCancelled. \n"); pauseScreen(); return;
+        case 1: getValidString("New Registration Number", vehicles[index].regNumber, 25); break;
+        case 2: getValidString("New Type", vehicles[index].type, 30); break;
+        case 3: getValidString("New Make", vehicles[index].make, 50); break;
+        case 4: getValidString("New Model", vehicles[index].model, 50); break;
+        case 5: vehicles[index].year = getValidInteger("New Year", 1980, 2026); break;
+        case 6: getValidString("New Fuel Type", vehicles[index].fueltype, 25); break;
+        case 7: vehicles[index].seatCapacity = getValidInteger("New Seat Capacity", 1, 60); break;
+        case 8: vehicles[index].currentOdometer = getValidFloat("New Odometer (km)", 0, 9999999); break;
+        case 9: getValidString("New Insurance Expiry (YYYY-MM-DD)",vehicles[index].insuranceExpiry, 20); break;
+        case 10: getValidString("New Tax Expiry (YYYY-MM-DD)",vehicles[index].taxExpiry, 20); break;
+        case 11: vehicles[index].fuelCostPerKm = getValidFloat("New Fuel Cost per Km", 0, 100); break;
+        case 12: getValidString("New Status (Available/In Use/ Under Maintenance)", vehicles[index].status, 20); break;
+        case 13: getValidString("New Notes", vehicles[index].notes, MAX_NOTES); break;
+    }
+    saveVehicles();
+    printf("\n Vehicle record updated successfully\n");
+    pauseScreen();
+}
+
+void deleteVehicle() {
+    clearScreen();
+    printf("\n===============================================\n");
+    printf("            DELETE VEHICLE RECORD\n");
+    printf("==============================================\n");
+
+    int id = getValidInteger("Enter Vehicle ID to delete", 2000, 9999999);
+    int index = findVehicleByID(id);
+    if(index==-1) {
+        printf("\n Vehicle not found\n");
+        pauseScreen();
+        return;
     }
 }
