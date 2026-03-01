@@ -472,4 +472,20 @@ void deleteVehicle() {
         pauseScreen();
         return;
     }
+    displayVehicleDetails(vehicles[index]);
+    printf("\n WARNNING: This action cannot be undo!\n ");
+    printf("Confirm deletion? (yes/no): ");
+    char confirm[10];
+    scanf("%s", confirm);
+    clearInputBuffer();
+    if(strcasecmp(confirm, "yes")==0){
+        vehicles[index].isActive = 0;
+        saveVehicles();
+        printf("\n Vehicle record deleted.\n");
+    }
+    else {
+        printf("\nDeletion cancelled.\n");
+    }
+    pauseScreen();
 }
+512
