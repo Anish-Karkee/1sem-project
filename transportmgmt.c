@@ -433,4 +433,12 @@ void updateVehicles(){
     displayVehicleDetails(vehicles[index]);
     printf("\nSelect field to update:\n");
     printf(" 1. Registration Number\n 2. Type\n 3. Make\n 4. Model\n ");
+    printf(" 5. Year\n 6. Fuel Type\n 7. Seat Capacity\n 8. Odometer\n ");
+    printf(" 9. Insurance Expiry\n 10. Tax Expiry\n 11. Fuel Cost Per KM\n ");
+    printf(" 12. Status\n 13. Note\n 0. Cancel\n ");
+
+    int choice = getValidInteger("Enter a choice", 0, 13);
+    switch(choice) {
+        457
+    }
 }
