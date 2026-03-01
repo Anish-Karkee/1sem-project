@@ -422,5 +422,15 @@ void updateVehicles(){
     printf("=====================================================/n");
 
     int id = getValidInteger("Enter Vehicles ID to update", 2000, 999999);
-    int index = findVehicleByID(id)
+    int index = findVehicleByID(id);
+
+    if(index == -1) {
+        printf("\n Vehicle not found!\n");
+        pauseScreen();
+        return;
+    }
+
+    displayVehicleDetails(vehicles[index]);
+    printf("\nSelect field to update:\n");
+    printf(" 1. Registration Number\n 2. Type\n 3. Make\n 4. Model\n ");
 }
