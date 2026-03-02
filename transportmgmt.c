@@ -610,4 +610,35 @@ void updateDriver(){
     pauseScreen();
 }
 
-643
+void deleteDriver(){
+    clearScreen();
+    printf("\n============================================================================\n");
+    printf("                   DELETE DRIVER RECORD\n");
+    printf("============================================================================\n");
+
+    int id=getValidInteger("Enter Driver ID to delete",3000, 999999);
+    int index=findDriverByID(id);
+
+    if(index==-1) {
+        printf("\n Driver not found!\n");
+        pauseScreen();
+        return;
+    }
+
+    displayDriverDetails(drivers[index]);
+    printf("WAARNIGN: This action cannot be undo!\n");
+    printf("Confirm deletio? (yes/no):");
+    char confirm[10];
+    scanf("%s", confirm);
+    clearInputBuffer();
+    if(strcasecmp(confirm, "yes")==0) {
+        drivers[index].isActive=0;
+        saveDrivers();
+        printf("\nDriver record deleted.\n");
+    }
+    else {
+        printf("\nDeletion cancelled.\n");
+    }
+    pauseScreen();
+}
+676
