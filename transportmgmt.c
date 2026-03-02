@@ -488,4 +488,35 @@ void deleteVehicle() {
     }
     pauseScreen();
 }
-512
+
+void listAllVehicles(){
+    clearScreen();
+    printf("\n=====================================================================\n");
+    printf("                ALL VEHICLES\n");
+    printf("=====================================================================\n");
+    printf("\n%-8s %-12s %-8s %-20s %-5s %-8s %-16s", 
+    "ID", "Reg No.", "Type", "Make & Model", "Year", "Cap.", "Status");
+    printf("-------------------------------------------------------------------------------\n");
+
+    int count = 0;
+    for (int i = 0; i < vehicleCount; i++) {
+        if(vehicles[i].isActive) {
+            char makeModel[72];
+            snprintf(makeModel, sizeof(makeModel), "%s %s", vehicles[i].make, vehicles[i].model);
+            printf("%-8d %-12s %-8s %-20s %-5d %-8d %-16s\n",
+                    vehicles[i].vehicleID,
+                    vehicles[i].regNumber,
+                    vehicles[i].type,
+                    makeModel,
+                    vehicles[i].year,
+                    vehicles[i].seatCapacity,
+                    vehicles[i].status);
+            count++;
+        }
+    }
+
+    printf("------------------------------------------------------------------------------------------------\n");
+    printf("Total Active Vehicles: %d\n", count);
+    pauseScreen();
+    
+}
