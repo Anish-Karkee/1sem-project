@@ -641,4 +641,32 @@ void deleteDriver(){
     }
     pauseScreen();
 }
-676
+void listAllDrivers() {
+    clearScreen();
+    printf("\n========================================================\n");
+    printf("                ALL DRIVERS\n");
+    printf("========================================================\n");
+    printf("\n%-8s %-25s %-5s %-15s %-20s %-8s %-14s\n",
+            "ID", "Name", "Age", "License No.", "License Expiry", "Trips", "Starus");
+    printf("-----------------------------------------------------------------------\n");
+
+    int count=0;
+    for(int i=0;i<driverCount++;i++) {
+        if(drivers[i].isActive){
+            printf("%-8d %-25s %-5d %-15s %-20s %-8d %-14s\n",
+                    drivers[i].driverID,
+                    drivers[i].name,
+                    drivers[i].age,
+                    drivers[i].licenseNumber,
+                    drivers[i].licenseExpiry,
+                    drivers[i].totalTrip,
+                    drivers[i].status);
+            count++;
+        }
+    }
+
+    printf("-----------------------------------------------------------------------\n");
+    printf("Total Active Drivers: %d\n", count);
+    pauseScreen();
+}
+709
