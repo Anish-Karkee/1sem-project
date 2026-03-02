@@ -557,4 +557,57 @@ void addDriver(){
     printf("\n Driver added successfully! ID: %d\n", d.driverID);
     pauseScreen();
 }
-586
+
+void viewDriver(){
+    clearScreen();
+    printf("\n===========================================================================\n");
+    printf("                    VIEW DRIVER DETAILS\n");
+    printf("===========================================================================\n");
+
+    int id=getValidInteger("Enter Driver ID", 3000, 999999);
+    int index=findDriverByID(id);
+    if(index!=-1)
+        displayDriverDetails(drivers[index]);
+    else
+        printf("\n Driver not found!\n");
+    pauseScreen();
+}
+
+void updateDriver(){
+    clearScreen();
+    printf("\n===========================================================================\n");
+    printf("                    UPDATE DRIVER RECORD\n");
+    printf("===========================================================================\n");
+
+    int id=getValidInteger("Enter Driver ID to Update", 3000, 999999);
+    int index=findDriverByID(id);
+    if(index==-1){
+        printf("\nDriver not found!\n");
+        pauseScreen();
+        return;
+    }
+
+    displayDriverDetails(drivers[index]);
+    printf("\nSelect field to update:\n");
+    printf(" 1. Name\n 2. Age\n 3. License Number\n 4. License Type\n");
+    printf(" 5. License Expiry\n 6. Contact\n 7. Address\n 8. Status\n 0. Cancel\n");
+
+    int choice=getValidInteger("Enter a choice", 0, 8);
+    switch(choice){
+        case 0: printf("\nCancelled.\n"); pauseScreen(); return;
+        case 1: getValidString("New Name", drivers[index].name, MAX_STRING); break;
+        case 2: drivers[index].age=getValidInteger("New Age", 18, 65); break;
+        case 3: getValidString("New License Number", drivers[index].licenseNumber, 30); break;
+        case 4: getValidString("New License Type", drivers[index].licenseType, 30); break;
+        case 5: getValidString("New License Expiry (YYYY-MM-DD)",drivers[index].licenseExpiry, 20); break;
+        case 6: getValidString("New Contact", drivers[index].contact, 20); break;
+        case 7: getValidString("New Address", drivers[index].address, MAX_STRING); break;
+        case 8: getValidString("New Status(Available/On Duty/On Leave)", drivers[index].status, 20); break;
+    }
+
+    saveDrivers();
+    printf("\nDriver record updated Successfully!\n");
+    pauseScreen();
+}
+
+643
