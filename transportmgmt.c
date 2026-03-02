@@ -520,3 +520,41 @@ void listAllVehicles(){
     pauseScreen();
     
 }
+
+//driver
+void addDriver(){
+    clearScreen();
+    printf("\n==================================================================\n");
+    printf("                ADD NEW DRIVER\n");
+    printf("==================================================================\n");
+    if(driverCount>=MAX_DRIVERS){
+        printf("\n Error: Maximum Driver Capacity Reached!!\n");
+        pauseScreen();
+        return;
+    }
+
+    Driver d;
+    memset(&d, 0, sizeof(Driver));
+    d.driverID=nextDriverID++;
+    d.isActive=1;
+    d.totalTrip=0;
+    d.totalKmDriven=0;
+
+    printf("\nDriver ID (Auto-generated): %d\n", d.driverID);
+
+    getValidString("Enter Driver Name", d.name, MAX_STRING);
+    d.age=getValidInteger("Enter Age", 18, 65);
+    getValidString("Enter License Number", d.licenseNumber, 35);
+    getValidString("Enter License Type (INTERNATIONAL/NORMAL)", d.licenseType, 25);
+    getValidString("Enter License Expiry Date (YYYY-MM-DD)", d.licenseExpiry, 25);
+    getValidString("Enter Contact Number", d.contact, 20);
+    getValidString("Enter Address", d.address, MAX_STRING);
+    getCurrentDate(d.joiningDate);
+    printf("Joining Date (Auto-set): %s\n", d.joiningDate);
+    strcpy(d.status, "Available");
+    drivers[driverCount++]=d;
+    saveDrivers();
+    printf("\n Driver added successfully! ID: %d\n", d.driverID);
+    pauseScreen();
+}
+586
