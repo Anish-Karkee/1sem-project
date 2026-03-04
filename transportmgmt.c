@@ -68,6 +68,7 @@ typedef struct
     char returnTime[25];
     int passengerCount;
     float startOdometer;
+    float endOdometer;
     float distanceCoverd;
     float fuelConsumed;
     float tripCost;
@@ -669,4 +670,87 @@ void listAllDrivers() {
     printf("Total Active Drivers: %d\n", count);
     pauseScreen();
 }
-709
+
+void bookTrip() {
+    clearScreen();
+    printf("\n=======================================================================\n");
+    printf("                BOOK NEW TRIP\n");
+    printf("=======================================================================\n");
+    
+    if(tripCount>=MAX_TRIPS) {
+        printf("\n Error: Maximum trip capacity reached!\n");
+        pauseScreen();
+        return;
+    }
+
+    Trips t;
+    memset(&t, 0, sizeof(Trips));
+    t.tripID=nextTripID++;
+    t.isActive=1;
+    strcpy(t.status, "Scheduled");
+    printf("\nTrip ID (Auto-generated): %d\n", t.tripID);
+
+    // link vehicles
+    t.vehicleID=getValidInteger("Enter Vehicle ID", 2000, 999999);
+    int vi=findVehicleByID(t.vehicleID);
+    if(vi==-1){
+        printf("\nVehicle not found! Trip booking cancelled.\n");
+        nextTripID--;
+        pauseScreen();
+        return;
+    }
+    if(strcasecmp(vehicles[vi].status, "Available")!=0){
+        printf("\nWARNING: Vehicle is not marked as Available (current: %s).\n", vehicles[vi].status);
+        printf("Continue anyway? (yes/no): ");
+        char c[10];
+        scanf("%s", c);
+        clearInputBuffer();
+        if(strcasecmp(c, "yes")!=0){
+            nextTripID--;
+            pauseScreen();
+            return;
+        }
+    }
+    strcpy(t.vehicleReg, vehicles[vi].regNumber);
+
+    //driver linked
+    t.driverID=getValidInteger("Enter Driver ID", 3000, 999999);
+    int di=findDriverByID(t.driverID);
+    if(di==-1) {
+        printf("\nDriver not found! Trip booking cancelled.\n");
+        nextDriverID--;
+        pauseScreen();
+        return;
+    }
+    strcpy(t.driverName, drivers[di].name);
+
+    getValidString("Enter Purpose of Trip", t.purpose, MAX_STRING);
+    getValidString("Enter Origin", t.origin, MAX_STRING);
+    getValidString("Enter Destination", t.destination, MAX_STRING);
+    getValidString("Enter Departure Date (YYYY-MM-DD)", t.departureDate, 25);
+    getValidString("Enter Departure Time (HH:MM)", t.departureTime, 15);
+    getValidString("Enter Expected Return Date (YYYY-MM-DD)", t.returnDate, 25);
+    getValidString("Enter Expected Return Time (HH:MM)", t.returnTime, 15);
+    t.passengerCount=getValidInteger("Enter Number of Passenger",0,60);
+    t.startOdometer = vehicles[vi].currentOdometer;
+    printf("Start Odometer (from vehicle): %.2f km\n", t.startOdometer);
+    t.endOdometer = 0;
+    t.distanceCoverd = 0;
+    t.fuelConsumed = 0;
+    t.tripCost = 0;
+    getValidString("Enter Approved By", t.approvedBy, MAX_STRING);
+    getValidString("Enter Notes (OPTIONAL)", t.notes, MAX_STRING);
+    
+    // MARK VEHICLES & DRIVER IN USE
+    strcpy(vehicles[vi].status,"In Use");
+    strcpy(drivers[di].status, "On Duty");
+
+    trips[tripCount++] = t;
+    saveTrips();
+    saveVehicles();
+    saveDrivers();
+    
+    printf("\nTrip booked successfully! Trip ID: %d\n", t.tripID);
+    pauseScreen();
+}
+787
