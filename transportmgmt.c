@@ -753,4 +753,70 @@ void bookTrip() {
     printf("\nTrip booked successfully! Trip ID: %d\n", t.tripID);
     pauseScreen();
 }
-787
+
+void viewTrip(){
+    clearScreen();
+    printf("\n===========================================================================\n");
+    printf("                VIEW TRIP DETAILS\n");
+    printf("===========================================================================\n");
+
+    int id=getValidInteger("Enter Trip ID", 4000, 999999);
+
+    for(int i=0;i<tripCount;i++) {
+        if(trips[i].tripID==id && trips[i].isActive) {
+            displayTripDetails(trips[i]);
+            pauseScreen();
+            return;
+        }
+    }
+
+    printf("\nTrip not found!\n");
+    pauseScreen();
+}
+
+void updateTrip() {
+    clearScreen();
+    printf("\n===========================================================================\n");
+    printf("                   UPDATE TRIP DETAILS\n");
+    printf("===========================================================================\n");
+
+    int id = getValidInteger("Enter Trip ID to update", 4000, 999999);
+    int index=-1;
+    for(int i=0;i<tripCount;i++) { 
+        if(trips[i].tripID==id && trips[i].isActive)
+        { index = i; break;}
+    }
+    if(index==-1) {
+        printf("\nTrip not found!\n");
+        pauseScreen();
+        return;
+    }
+
+    displayTripDetails(trips[index]);
+
+    printf("\nSelect field to update:\n");
+    printf(" 1. Purpose\n 2. Origin\n 3. Destination\n 4. Departure Date\n");
+    printf(" 5. Departure Time\n 6. Return Date\n 7. Return Time\n");
+    printf(" 8. Passenger Count\n 9. Approved By\n 10. Notes\n 0. Cancel\n");
+
+    int choice = getValidInteger("Enter a Choice", 0, 10);
+    switch(choice) {
+        case 0: printf("\nCancelled.\n"); pauseScreen(); break;
+        case 1: getValidString("New Purpose", trips[index].purpose, MAX_STRING); break;
+        case 2: getValidString("New Origin", trips[index].origin, MAX_STRING); break;
+        case 3: getValidString("New Destination", trips[index].destination, MAX_STRING); break;
+        case 4: getValidString("New Departure Date (YYYY-MM-DD)", trips[index].departureDate, 20); break;
+        case 5: getValidString("New Departure Time (HH:MM)", trips[index].departureTime, 10); break;
+        case 6: getValidString("New Return Date (YYYY-MM-DD)", trips[index].returnDate, 20); break;
+        case 7:getValidString("New Return Time (HH:MM)", trips[index].returnTime, 10); break;
+        case 8: trips[index].passengerCount = getValidInteger("New Passenger Count", 0, 60); break;
+        case 9: getValidString("New Approved By", trips[index].approvedBy, MAX_STRING); break;
+        case 10: getValidString("New Notes", trips[index].notes, MAX_NOTES); break;
+    }
+
+    saveTrips();
+    printf("\nTrip updated successfully!\n");
+    pauseScreen();
+}
+
+852
