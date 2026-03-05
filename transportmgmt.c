@@ -865,5 +865,30 @@ void completeTrip() {
         trips[index].tripCost=getValidFloat("Enter Trip Cost", 0, 999999);
     }
 
-    898
+    //return date
+    getCurrentDate(trips[index].returnDate);
+    getCurrentTime(trips[index].returnTime);
+    printf("Reuturn Date/Time (Auto-set): %s %s\n", trips[index].returnDate, trips[index].returnTime);
+
+    getValidString("Enter any Remarks/Notes", trips[index].notes, MAX_NOTES);
+
+    strcpy(trips[index].status, "Completed");
+
+    //update drivver stats
+    int di = findDriverByID(trips[index].driverID);
+    if(di!=-1) {
+        drivers[di].totalTrip++;
+        drivers[di].totalKmDriven+=trips[index].distanceCoverd;
+        strcpy(drivers[di].status, "Available");
+    }
+    saveTrips();
+    saveVehicles();
+    saveDrivers();
+
+    printf("\nTrip marked as Completed!\n");
+    printf(" Distance: %.2f km | Fuel: %.2f L | Cost: %.2f\n",
+            trips[index].distanceCoverd, trips[index].fuelConsumed, trips[index].tripCost );
+    pauseScreen();
 }
+
+925
