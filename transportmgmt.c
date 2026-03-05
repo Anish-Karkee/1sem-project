@@ -819,4 +819,51 @@ void updateTrip() {
     pauseScreen();
 }
 
-852
+void completeTrip() {
+    clearScreen();
+    printf("\n===========================================================================\n");
+    printf("                COMPLETE TRIP\n");
+    printf("===========================================================================\n");
+
+    int id = getValidInteger("Enter Trip ID to complete", 4000, 999999);
+    int index =-1;
+    for (int i = 0; i < tripCount; i++) {
+        if(trips[i].tripID==id&&trips[i].isActive) { index=i; break; }
+    }
+
+    if(index==-1) {
+        printf("\nTrip not found!\n");
+        pauseScreen();
+        return;
+    }
+    
+    if(strcasecmp(trips[index].status, "Completed")==0) {
+        printf("\nThis trip is already marked as Completed.\n");
+        pauseScreen();
+        return;
+    }
+
+    displayTripDetails(trips[index]);
+
+    printf("\n--- Enter Completion Details ---\n");
+    trips[index].endOdometer = getValidFloat("Enter End Odometer Reading (km)", trips[index].startOdometer, 999999);
+    trips[index].distanceCoverd = trips[index].endOdometer - trips[index].startOdometer;
+    trips[index].fuelConsumed = getValidFloat("Enter Fuel Consumed (litres)", 0, 5000);
+
+    //Auto calculate grxa trip cost vechile ko fuel cost per km ko hisab le
+    int vi = findVehicleByID(trips[index].vehicleID);
+    if(vi!=-1) {
+        trips[index].tripCost=trips[index].distanceCoverd*vehicles[vi].fuelCostPerKm;
+        vehicles[vi].currentOdometer=trips[index].endOdometer;
+        printf("Calculated Trips Cost: %.2f\n", trips[index].tripCost);
+        printf("Override cost? (yes/no): ");
+        char c[10]; scanf("%s", c); clearInputBuffer();
+        if(strcasecmp(c, "yes")==0)
+            trips[index].tripCost=getValidFloat("Enter Actual Trip Cost", 0, 999999);
+        strcpy(vehicles[vi].status, "Available");
+    } else {
+        trips[index].tripCost=getValidFloat("Enter Trip Cost", 0, 999999);
+    }
+
+    898
+}
