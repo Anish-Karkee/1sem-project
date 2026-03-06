@@ -890,5 +890,49 @@ void completeTrip() {
             trips[index].distanceCoverd, trips[index].fuelConsumed, trips[index].tripCost );
     pauseScreen();
 }
+void cancelTrip() {
+    clearScreen();
+    printf("\n===========================================================================\n");
+    printf("                CANCEL TRIP\n");
+    printf("===========================================================================\n");
 
-925
+    int id = getValidInteger("Enter Trip ID to cancel", 4000, 999999);
+    int index = -1;
+    for(int i=0;i<tripCount;i++) {
+        if(trips[i].tripID==id&&trips[i].isActive) { index=i; break; }
+    }
+
+    if(index==-1) {
+        printf("\nTrip not found !\n");
+        pauseScreen();
+        return;
+    }
+    displayTripDetails(trips[index]);
+    printf("\nConfirm cancellation? (yes/no): ");
+    char confirm[10];
+    scanf("%s", confirm);
+    clearInputBuffer();
+
+    if(strcasecmp(confirm, "yes")==0) {
+        strcpy(trips[index].status, "Cancelled");
+
+        //free vehicles and drivers
+        int vi = findVehicleByID(trips[index].vehicleID);
+        int di = findDriverByID(trips[index].driverID);
+        if(vi!=-1&&strcasecmp(vehicles[vi].status, "In Use")==0)
+            strcpy(vehicles[vi].status, "Available");
+        if(di!=-1&&strcasecmp(drivers[di].status, "On Duty")==0)
+            strcpy(drivers[di].status, "Available");
+        
+        saveTrips();
+        saveVehicles();
+        saveDrivers();
+        printf("\nTrip Cancelled successfully.\n");
+    } else {
+        printf("\nCancellation aborted.\n");
+    }
+
+    pauseScreen();
+}
+
+971
