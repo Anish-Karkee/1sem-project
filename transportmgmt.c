@@ -935,4 +935,34 @@ void cancelTrip() {
     pauseScreen();
 }
 
-971
+void listAllTrips(){
+    clearScreen();
+    printf("\n===========================================================================\n");
+    printf("            ALL TRIPS\n");
+    printf("===========================================================================\n");
+
+    printf("\n%-8s %-12s %-20s %-20s %-12s %-12s %-12s\n",
+            "TripID", "Vehicle", "From", "To", "Departure", "Return", "Status");
+    printf("-----------------------------------------------------------------------\n");
+
+    int count =0;
+    for(int i=0;i<tripCount;i++) {
+        if(trips[i].isActive) {
+            printf("%-8d %-12s %-20s %-20s %-12s %-12s %-12s\n",
+                    trips[i].tripID,
+                    trips[i].vehicleReg,
+                    trips[i].origin,
+                    trips[i].destination,
+                    trips[i].departureDate,
+                    trips[i].returnDate,
+                    trips[i].status);
+            count++;
+        }
+    }
+
+    printf("-----------------------------------------------------------------------------\n");
+    printf("Total Trips: %d\n", count);
+    pauseScreen();
+}
+
+1001
