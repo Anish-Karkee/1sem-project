@@ -1027,4 +1027,56 @@ void driverStatusReport() {
     pauseScreen();
 }
 
-1059
+void tripHistoryReport() {
+    clearScreen();
+    printf("\n==========================================================================\n");
+    printf("                TRIP HISTORY REPORT\n");
+    printf("==========================================================================\n");
+
+    int completed = 0, scheduled = 0, cancelled = 0;
+    float totalKm = 0, totalCost = 0;
+
+    for(int i=0;i<tripCount;i++) {
+        if(!trips[i].isActive) continue;
+        if(strcasecmp(trips[i].status, "Completed")==0) {
+            completed++;
+            totalKm += trips[i].distanceCoverd;
+            totalCost += trips[i].tripCost;
+        } else if(strcasecmp(trips[i].status, "Scheduled")==0) {
+            scheduled++;
+        } else if(strcasecmp(trips[i].status, "Cancelled")==0) {
+            cancelled++;
+        }
+    }
+
+    printf("\nCompleted Trips : %d\n", completed);
+    printf("Scheduled Trips : %d\n", scheduled);
+    printf("Cancelled Trips : %d\n", cancelled);
+    printf("Total Distance : %.2f\n", totalKm);
+    printf("Total Trip Cost : %.2f\n", totalCost);
+    if(completed>0)
+        printf("Avg Cost/Trip   : %.2f\n", totalCost / completed);
+
+    printf("\n--- Last 10 Completed Trips ---\n");
+    printf("%-8s %-12s %-20s %-20s %-10s %-10s\n",
+            "TripID", "Vehicle", "From", "To", "Km", "Cost");
+    printf("----------------------------------------------------------------------------\n");
+
+    int shown = 0;
+    for(int i=tripCount-1;i>=0 && shown<10;i--) {
+        if(trips[i].isActive && strcasecmp(trips[i].status, "Completed")==0) {
+            printf("%-8d %-12s %-20s %-20s %-10.2f %-10.2f\n",
+                    trips[i].tripID,
+                    trips[i].vehicleReg,
+                    trips[i].origin,
+                    trips[i].destination,
+                    trips[i].distanceCoverd,
+                    trips[i].tripCost);
+            shown++;
+        }
+    }
+
+    pauseScreen();
+}
+
+1108
