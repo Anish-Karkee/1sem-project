@@ -997,4 +997,34 @@ void vehicleStatusReport() {
     pauseScreen();
 }
 
-1033
+void driverStatusReport() { 
+    clearScreen();
+    printf("\n==========================================================================\n");
+    printf("                    DRIVER STATUS REPORT\n");
+    printf("==========================================================================\n");
+
+    printf("\n%-8s %-25s %-8s %-12s %-10s %-14s\n",
+            "ID", "Name", "Age", "Lic. Expiry", "Trips", "Status");
+    printf("----------------------------------------------------------------------------\n");
+
+    int available = 0, onDuty = 0, onLeave = 0;
+    for(int i=0;i<driverCount;i++) {
+        if(!drivers[i].isActive) continue;
+        printf("%-8d %-25s %-8d %-12s %-10d %-14s\n",
+                drivers[i].driverID,
+                drivers[i].name,
+                drivers[i].age,
+                drivers[i].licenseExpiry,
+                drivers[i].totalTrip,
+                drivers[i].status);
+        if(strcasecmp(drivers[i].status, "Available")==0) available++;
+        else if(strcasecmp(drivers[i].status, "On Duty")==0) onDuty++;
+        else                                                  onLeave++;
+    }
+
+    printf("----------------------------------------------------------------------------\n");
+    printf("Available: %d | On Duty: %d | On Leave: %d\n", available, onDuty, onLeave);
+    pauseScreen();
+}
+
+1059
