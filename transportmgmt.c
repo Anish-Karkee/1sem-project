@@ -965,4 +965,36 @@ void listAllTrips(){
     pauseScreen();
 }
 
-1001
+// Report
+
+void vehicleStatusReport() {
+    clearScreen();
+    printf("\n===========================================================================\n");
+    printf("            VEHICLE STATUS REPORT\n");
+    printf("===========================================================================\n");
+
+    int available = 0, inUse = 0, maintenance = 0;
+
+    printf("\n%-8s %-12s %-20s %-10s %-12s\n", "ID" "Reg No.", "Make & Model", "Odometer", "Status");
+    printf("---------------------------------------------------------------------\n");
+
+    for(int i=0;i<vehicleCount;i++) {
+        if(!vehicles[i].isActive) continue;
+        char mm[72];
+        snprintf(mm, sizeof(mm), "%s %s", vehicles[i].make, vehicles[i].model);
+        printf("%-8d %-12s %-20s %-10.0f %-12s\n",
+                vehicles[i].vehicleID,
+                vehicles[i].regNumber, mm,
+                vehicles[i].currentOdometer,
+                vehicles[i].status);
+        if(strcasecmp(vehicles[i].status,"Available")==0) available++;
+        else if(strcasecmp(vehicles[i].status,"In Use")==0) inUse++;
+        else                                                maintenance++;
+    }
+
+    printf("---------------------------------------------------------------------------\n");
+    printf("Available: %d | In Use: %d | Under Maintenance: %d\n", available, inUse, maintenance);
+    pauseScreen();
+}
+
+1033
