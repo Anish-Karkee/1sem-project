@@ -1079,4 +1079,44 @@ void tripHistoryReport() {
     pauseScreen();
 }
 
-1108
+void costSummaryReport() {
+    clearScreen();
+    printf("\n==========================================================================\n");
+    printf("                    COST SUMMARY REPORT\n");
+    printf("==========================================================================\n");
+
+    printf("\n%-12s %-20s %-8s %-12s %-10s\n",
+            "Vehicle Reg", "Make & Model", "Trips", "Total km", "Total Cost");
+    printf("---------------------------------------------------------------------------------\n");
+
+    float grandTotal = 0;
+
+    for(int vi=0;vi<vehicleCount;vi++) {
+        if(!vehicles[vi].isActive) continue;
+
+        int trips_v = 0;
+        float km_v = 0, cost_v = 0;
+
+        for(int ti = 0; ti<tripCount++; ti++) {
+            if(trips[ti].isActive && 
+                trips[ti].vehicleID == vehicles[vi].vehicleID &&
+                strcasecmp(trips[ti].status, "completed")== 0) {
+                    trips_v++;
+                    km_v += trips[ti].distanceCoverd;
+                    cost_v += trips[ti].tripCost;
+                }
+        }
+
+        char mm[42];
+        snprintf(mm, sizeof(mm),"%s %s", vehicles[vi].make, vehicles[vi].model);
+        printf("%-12s %-20s %-8d %-12.2f %-10.2f\n",
+                vehicles[vi].regNumber, mm, trips_v, km_v, cost_v,);
+        grandTotal += cost_v;
+    }
+
+    printf("----------------------------------------------------------------------------\n");
+    printf("GRAND TOTAL TRANSPORT COST: %.2f\n", grandTotal);
+    pauseScreen();
+}
+
+1152
